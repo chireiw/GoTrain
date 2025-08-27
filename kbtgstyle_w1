@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>KBTG</title>
+  <style>
+    :root {
+      --bg: #06080d;
+      --font-stack: "Poppins", "Segoe UI", system-ui, sans-serif;
+      --neon1: #19f5ff;
+      --neon2: #7b5bff;
+      --neon3: #ff0099;
+      --neon4: #00ff85;
+      --glow-strength: 0.55;
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 25% 20%, #142035, #06080d 55%) fixed,
+        linear-gradient(115deg, #09121f, #06080d 60%, #0a1018);
+      font-family: var(--font-stack);
+      overflow: hidden;
+      color: #fff;
+      perspective: 1600px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1 {
+      font-size: clamp(3.5rem, 19vw, 18rem);
+      font-weight: 800;
+      letter-spacing: clamp(.15rem, 1.2vw, 1.2rem);
+      display: flex;
+      gap: clamp(.1em, .4em, 1em);
+      position: relative;
+      line-height: .8;
+      filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.05));
+      user-select: none;
+      cursor: default;
+      transform-style: preserve-3d;
+      animation: titleFloat 18s ease-in-out infinite;
+    }
+
+    h1::after {
+      /* Ambient rotating soft light */
+      content: "";
+      position: absolute;
+      inset: -25%;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.08), transparent 60%),
+        conic-gradient(from 0turn, rgba(0,255,200,.10), rgba(130,0,255,.15), rgba(255,0,150,.12), rgba(0,255,140,.14), rgba(0,255,200,.10));
+      mix-blend-mode: overlay;
+      animation: spinAura 30s linear infinite;
+      filter: blur(60px) saturate(140%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes spinAura {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes titleFloat {
+      0%,100% { transform: translateY(0px) rotateX(0deg); }
+      50% { transform: translateY(-16px) rotateX(5deg); }
+    }
+
+    h1 span {
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(120deg,
+        var(--c1) 0%,
+        var(--c2) 25%,
+        var(--c3) 50%,
+        var(--c4) 75%,
+        var(--c1) 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      text-shadow:
+        0 0 1px rgba(255,255,255,.25),
+        0 0 8px color-mix(in srgb, var(--c2) 60%, transparent),
+        0 0 22px color-mix(in srgb, var(--c3) 55%, transparent);
+      transform-origin: center 120%;
+      transform: translateY(120%) scale(.85) rotateX(70deg) rotateY(-40deg);
+      opacity: 0;
+      animation:
+        popIn .85s var(--delay) cubic-bezier(.65,.1,.25,1.4) forwards,
+        wave 6.2s calc(var(--delay) + 1s) ease-in-out infinite,
+        gradientShift 11s linear infinite,
+        glowPulse 3.8s calc(var(--delay) + .8s) ease-in-out infinite,
+        hueDrift 18s linear infinite;
+      will-change: transform, filter;
+    }
+
+    /* Individual color sets & delays */
+    #k { --delay: .0s; --c1: #19f5ff; --c2: #12a8ff; --c3: #457bff; --c4:#7b5bff; }
+    #b { --delay: .12s; --c1: #7b5bff; --c2:#a248ff; --c3:#ff0099; --c4:#ff4d5d; }
+    #t { --delay: .24s; --c1: #ff0099; --c2:#ff4d5d; --c3:#ffad33; --c4:#ffd819; }
+    #g { --delay: .36s; --c1: #00ff85; --c2:#19f5ff; --c3:#12a8ff; --c4:#7b5bff; }
+
+    @keyframes popIn {
+      0% { opacity:0; transform: translateY(120%) scale(.3) rotateX(80deg) rotateY(-70deg) rotateZ(-25deg); filter: blur(10px); }
+      55% { opacity:1; filter: blur(0); }
+      70% { transform: translateY(-6%) scale(1.05) rotateX(-12deg) rotateY(18deg) rotateZ(3deg);}
+      100% { opacity:1; transform: translateY(0) scale(1) rotateX(0) rotateY(0) rotateZ(0); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes glowPulse {
+      0%,100% { text-shadow:
+        0 0 2px rgba(255,255,255,.3),
+        0 0 12px color-mix(in srgb, var(--c3) calc(var(--glow-strength)*100%), transparent),
+        0 0 38px color-mix(in srgb, var(--c4) calc(var(--glow-strength)*100%), transparent); }
+      50% { text-shadow:
+        0 0 4px rgba(255,255,255,.4),
+        0 0 18px color-mix(in srgb, var(--c2) 75%, transparent),
+        0 0 52px color-mix(in srgb, var(--c3) 70%, transparent); }
+    }
+
+    @keyframes wave {
+      0%,100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      25% { transform: translateY(-10%) rotateX(6deg) rotateY(-6deg); }
+      50% { transform: translateY(0%) rotateX(0deg) rotateY(0deg); }
+      75% { transform: translateY(8%) rotateX(-5deg) rotateY(5deg); }
+    }
+
+    @keyframes hueDrift {
+      0% { filter: hue-rotate(0deg) saturate(115%) brightness(1); }
+      50% { filter: hue-rotate(180deg) saturate(150%) brightness(1.08); }
+      100% { filter: hue-rotate(360deg) saturate(115%) brightness(1); }
+    }
+
+    /* Hover / interactive states */
+    h1 span:hover {
+      animation-play-state: paused;
+      filter: brightness(1.3) saturate(180%) drop-shadow(0 0 15px rgba(255,255,255,.25));
+      transform: translateY(-8%) scale(1.12) rotateX(12deg) rotateY(-8deg) !important;
+      z-index: 10;
+    }
+
+    h1 span:active {
+      transform: translateY(0%) scale(.96) rotateX(-6deg) rotateY(4deg);
+      transition: transform .14s;
+    }
+
+    /* Ripple burst class toggled via JS */
+    h1 span.burst {
+      animation: burst 700ms ease-out;
+    }
+    @keyframes burst {
+      0% { text-shadow: 0 0 0 rgba(255,255,255,0); transform: scale(1) rotateZ(0deg); }
+      40% { text-shadow: 0 0 22px rgba(255,255,255,.6), 0 0 60px color-mix(in srgb, var(--c2) 60%, transparent); }
+      70% { transform: scale(1.25) rotateZ(var(--rz)); }
+      100% { text-shadow: 0 0 4px rgba(255,255,255,.2); transform: scale(1) rotateZ(0deg); }
+    }
+
+    /* Subtle keyboard hint (accessible off-screen unless pointer capable) */
+    .hint {
+      position: fixed;
+      bottom: .9rem;
+      font-size: .75rem;
+      letter-spacing: .08em;
+      font-weight: 500;
+      left: 50%;
+      translate: -50% 0;
+      color: #8aa7c9;
+      opacity: .35;
+      user-select: none;
+      pointer-events: none;
+      animation: fadeIn 1.4s ease 1.8s both;
+    }
+    @media (max-width: 640px) {
+      h1 { font-size: clamp(3.2rem, 26vw, 9rem); }
+      .hint { font-size: .6rem; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; filter: blur(6px); transform: translateY(6px); }
+      to { opacity: .35; filter: blur(0); transform: translateY(0); }
+    }
+
+    /* Focus ring for accessibility */
+    h1 span:focus-visible {
+      outline: 3px solid #19f5ff;
+      outline-offset: 8px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    <span id="k" tabindex="0">K</span>
+    <span id="b" tabindex="0">B</span>
+    <span id="t" tabindex="0">T</span>
+    <span id="g" tabindex="0">G</span>
+  </h1>
+  <script>
+    // Interactive enhancements without altering the original HTML structure.
+
+    const letters = [...document.querySelectorAll('h1 span')];
+
+    // Pointer parallax / magnetic attraction
+    const strength = 18;
+    const rotateStrength = 22;
+
+    let pointerX = 0, pointerY = 0;
+    const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+    function updateParallax() {
+      letters.forEach((el, i) => {
+        const rect = el.getBoundingClientRect();
+        const elCenter = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2
+        };
+        const dx = pointerX - elCenter.x;
+        const dy = pointerY - elCenter.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        // Ease factor
+        const force = Math.min(1, 140 / dist);
+        const tx = (-dx / window.innerWidth) * strength * force;
+        const ty = (-dy / window.innerHeight) * strength * force;
+
+        const rx = (dy / window.innerHeight) * rotateStrength * force;
+        const ry = (-dx / window.innerWidth) * rotateStrength * force;
+
+        // Preserve original animated transforms by composing with CSS variable approach:
+        el.style.setProperty('--tx', tx.toFixed(2) + 'px');
+        el.style.setProperty('--ty', ty.toFixed(2) + 'px');
+        el.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+        el.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+
+        // Compose using transform override that relies on animation baseline (scale/translate)
+        el.style.transform += ` translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      });
+    }
+
+    // To avoid transform accumulation each frame, we reset after animation frame
+    function cleanTransforms() {
+      letters.forEach(el => {
+        // Remove the appended dynamic transforms by resetting style.transform so CSS animations apply
+        el.style.transform = '';
+      });
+    }
+
+    let rafId, cleanId;
+    window.addEventListener('pointermove', e => {
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(cleanId);
+      rafId = requestAnimationFrame(() => {
+        cleanTransforms();
+        updateParallax();
+        cleanId = requestAnimationFrame(cleanTransforms); // schedule cleanup next frame
+      });
+    }, { passive: true });
+
+    // Burst on click / keypress
+    function burst(el) {
+      el.classList.remove('burst');
+      // random rotate for flair
+      el.style.setProperty('--rz', (Math.random() * 60 - 30).toFixed(2) + 'deg');
+      // Force reflow to restart animation
+      void el.offsetWidth;
+      el.classList.add('burst');
+    }
+
+    letters.forEach(el => {
+      el.addEventListener('click', () => burst(el));
+      el.addEventListener('keydown', ev => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+            burst(el);
+        }
+      });
+    });
+
+    // Keyboard color cycle (press space anywhere)
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space' && document.activeElement.tagName !== 'SPAN') {
+        e.preventDefault();
+        letters.forEach(burst);
+      }
+    });
+
+    // Add small usage hint
+    const hint = document.createElement('div');
+    hint.className = 'hint';
+    hint.textContent = 'Move pointer / tap letters (Enter/Space to burst)';
+    document.body.appendChild(hint);
+
+    // Respect reduced motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function applyReducedMotion() {
+      if (mediaQuery.matches) {
+        document.documentElement.style.setProperty('--glow-strength', '.2');
+        letters.forEach(el => {
+          el.style.animation = 'none';
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        });
+        hint.textContent = 'Motion reduced (press Enter/Space on letters)';
+      }
+    }
+    mediaQuery.addEventListener('change', applyReducedMotion);
+    applyReducedMotion();
+
+    // Adaptive center on resize for parallax calculation
+    window.addEventListener('resize', () => {
+      center.x = window.innerWidth / 2;
+      center.y = window.innerHeight / 2;
+    });
+
+    // Fallback: ensure animations restart if page becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        letters.forEach(el => {
+          el.style.animationPlayState = 'running';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
